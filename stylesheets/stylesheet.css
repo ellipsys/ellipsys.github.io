@@ -53,4 +53,5 @@ body,pre,b {
 }
 .cursor {
   animation: blink 1s infinite;
+  color: inherit;
 }
