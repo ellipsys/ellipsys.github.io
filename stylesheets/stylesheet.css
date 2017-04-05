@@ -21,21 +21,11 @@ body,pre,b {
    position:relative; 
    
   }
-  a:hover { 
-   background:rgba(0,0,0,0.7); 
-   text-decoration:none;
-   border:1px solid #F00; 
-   margin:-17px; 
-   padding:16px;
-   position:relative; 
-   z-index:1; 
-   
-  }
+  
  .c { 
   height:2520pt; 
   overflow:hidden; 
-  cursor:default; 
-  
+  cursor:default;  
  }
 .d { 
   cursor:default; 
@@ -44,14 +34,7 @@ body,pre,b {
   margin:-17px;
   
  }
-#car{
-  font-weight: bold; 
-  color:#F3092C; 
-  background:#050A03; 
-   
-  
-}
+
 .cursor {
-  animation: blink 1s infinite;
-  
+  animation: blink 1s infinite;  
 }
