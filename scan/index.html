@@ -22,7 +22,7 @@ function errorCallback(error) {
 };
 
 function ip(coordenadas,map){
-  fetch('http://www.ip-api.com/json')
+  fetch('https://api.ipify.org/?format=json')
   .then(function(response) {
     if (response.status !== 200) {
       console.log('ok ' +response.status);
