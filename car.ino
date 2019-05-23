@@ -1,8 +1,8 @@
 #include <Servo.h>
 char recibida = 0;
 Servo servoMotor;
-const int trigPin = 13;
-const int echoPin = 12;
+const int trigPin = 7;
+const int echoPin = 8;
 
 void setup() 
 {
@@ -20,65 +20,6 @@ void setup()
  3  izquierda
  4  atras
  */
-
-void loop()
-{
-  if(Serial.available() > 0)  
-  
-  {
-    int cm = ping(trigPin, echoPin);
-    recibida = Serial.read();      //lee los valores recibidos desde la app con los  botones 
-    if (recibida == '1'){
-      
-      if (cm < 10){
-        Serial.print("adelante");
-        Serial.print("\n");
-        digitalWrite(13, LOW);
-        servoMotor.write(90);
-        delay(1000);
-        digitalWrite(13, HIGH);
-        delay(1000);
-        digitalWrite(13, LOW);
-      }
-      
-    }
-     else if (recibida == '2'){
-      String var = "derecha";
-      Serial.print("derecha");
-      Serial.print("\n");
-      servoMotor.write(0);
-      digitalWrite(13, LOW);
-      delay(1000);
-      digitalWrite(13, HIGH);
-      delay(1000);
-      servoMotor.write(90);
-      digitalWrite(13, LOW);
-      
-     }
-      else if (recibida == '3'){
-        
-        Serial.print("izquierda");
-        Serial.print("\n");
-        servoMotor.write(180);
-        delay(1000);
-        digitalWrite(13, HIGH);
-        delay(1000);
-        servoMotor.write(90);
-        digitalWrite(13, LOW);
-      }
-      else if (recibida == '4'){
-        
-        Serial.print("atras");
-        Serial.print("\n");
-        digitalWrite(13, LOW);
-        servoMotor.write(90);
-        delay(1000);
-        digitalWrite(12, HIGH);
-        delay(1000);
-        
-    }
-    }    
-} 
 int ping(int trigPin, int echoPin)
         {   long duracion, distancia ;
             digitalWrite(trigPin, LOW);        // Nos aseguramos de que el trigger está desactivado
@@ -90,3 +31,68 @@ int ping(int trigPin, int echoPin)
             distancia = duracion / 2 / 29.1  ;
             return distancia;
         }
+void loop()
+{
+  if(Serial.available() > 0)  
+  
+  {
+    int cm = ping(trigPin, echoPin);
+    Serial.print(cm);
+    Serial.print("\n");
+    recibida = Serial.read();      //lee los valores recibidos desde la app con los  botones 
+    while (cm < 10){
+      if (recibida == '1'){
+        Serial.print("Dato recibido: ADELANTE");
+        Serial.print("\n");
+        digitalWrite(13, LOW);
+        servoMotor.write(90);
+        delay(1000);
+        digitalWrite(13, HIGH);
+        digitalWrite(12, LOW);
+        delay(1000);
+        digitalWrite(13, LOW);
+      
+      
+    }
+     else if (recibida == '2'){
+      String var = "derecha";
+      Serial.print("Dato recibido: DERECHA");
+      Serial.print("\n");
+      servoMotor.write(0);
+      digitalWrite(13, LOW);
+      delay(1000);
+      digitalWrite(13, HIGH);
+      digitalWrite(12, LOW);
+      delay(1000);
+      servoMotor.write(90);
+      digitalWrite(13, LOW);
+      
+     }
+      else if (recibida == '3'){
+        
+        Serial.print("Dato recibido: IZQUIERDA");
+        Serial.print("\n");
+        servoMotor.write(180);
+        delay(1000);
+        digitalWrite(13, HIGH);
+        digitalWrite(12, LOW);
+        delay(1000);
+        servoMotor.write(90);
+        digitalWrite(13, LOW);
+      }
+      else if (recibida == '4'){
+        
+        Serial.print("Dato recibido: ATRAS");
+        Serial.print("\n");
+        digitalWrite(13, LOW);
+        servoMotor.write(90);
+        delay(1000);
+        digitalWrite(12, HIGH);
+        digitalWrite(13, LOW);
+        delay(1000);
+        
+    }
+      }
+    
+    }    
+}
