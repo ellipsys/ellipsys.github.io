@@ -40,7 +40,7 @@ void loop()
     Serial.print(cm);
     Serial.print("\n");
     recibida = Serial.read();      //lee los valores recibidos desde la app con los  botones 
-    while (cm < 10){
+    while (cm > 10){
       if (recibida == '1'){
         Serial.print("Dato recibido: ADELANTE");
         Serial.print("\n");
