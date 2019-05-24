@@ -42,14 +42,18 @@ void alto(){
   }
 
 void loop()
-{
+{ 
+  int cm = ping(trigPin, echoPin);
+  
   
   if(Serial.available() > 0)  
   
   {
-    int cm = ping(trigPin, echoPin);
+    
+    
     //Serial.print("Distancia en centimetros: "+ String(cm)+"\n");
     recibida = Serial.read();      //lee los valores recibidos desde la app con los  botones 
+    
     if (cm > 10){
       if (recibida == '1'){
         Serial.print("Dato recibido: ADELANTE");
@@ -68,11 +72,11 @@ void loop()
         Serial.print("\n");
         Serial.print(String(cm)+"CM\n##############################################\n");
         servoMotor.write(180);
-        delay(1000);
         digitalWrite(LeftPin, LOW);
         delay(1000);
         digitalWrite(RightPin, HIGH);
         delay(1000);
+        servoMotor.write(90);
         alto();
     }
     if (recibida == '3'){
@@ -80,11 +84,11 @@ void loop()
         Serial.print("\n");
         Serial.print(String(cm)+"CM\n##############################################\n");
         servoMotor.write(0);
-        delay(1000);
         digitalWrite(LeftPin, LOW);
         delay(1000);
         digitalWrite(RightPin, HIGH);
         delay(1000);
+        servoMotor.write(90);
         alto();
     }
     if (recibida == '4'){
@@ -92,7 +96,6 @@ void loop()
         Serial.print("\n");
         Serial.print(String(cm)+"CM\n##############################################\n");
         servoMotor.write(90);
-        delay(1000);
         digitalWrite(LeftPin, HIGH);
         delay(1000);
         digitalWrite(RightPin, LOW);
