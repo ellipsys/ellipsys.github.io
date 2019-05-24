@@ -1,17 +1,20 @@
 #include <Servo.h>
 char recibida = 0;
 Servo servoMotor;
-const int trigPin = 7;
-const int echoPin = 8;
+const int trigPin = 53; //SENSOR DE DISTANCIA
+const int echoPin = 52;
+int LeftPin=28; //Pines de salida del Arduino
+int RightPin=29;//////MOTOR
 
 void setup() 
 {
   Serial.begin(9600);         //Sets the data rate in bits per second (baud) for serial data transmission
-  pinMode(13, OUTPUT);        //motor avanza
-  pinMode(12, OUTPUT);    //motor retrocede
-  servoMotor.attach(11);//pin señal servo
+  pinMode(LeftPin, OUTPUT);
+  pinMode(RightPin, OUTPUT);
+  servoMotor.attach(50);//pin señal servo
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
+  Serial.print("I AM READY\n");
   
 }
 /*
@@ -31,68 +34,82 @@ int ping(int trigPin, int echoPin)
             distancia = duracion / 2 / 29.1  ;
             return distancia;
         }
+void alto(){
+  digitalWrite(LeftPin, LOW);
+  digitalWrite(RightPin, LOW);
+        
+  
+  }
+
 void loop()
 {
+  
   if(Serial.available() > 0)  
   
   {
     int cm = ping(trigPin, echoPin);
-    Serial.print(cm);
-    Serial.print("\n");
+    //Serial.print("Distancia en centimetros: "+ String(cm)+"\n");
     recibida = Serial.read();      //lee los valores recibidos desde la app con los  botones 
-    while (cm > 10){
+    if (cm > 10){
       if (recibida == '1'){
         Serial.print("Dato recibido: ADELANTE");
         Serial.print("\n");
-        digitalWrite(13, LOW);
+        Serial.print(String(cm)+"CM\n##############################################\n");
         servoMotor.write(90);
         delay(1000);
-        digitalWrite(13, HIGH);
-        digitalWrite(12, LOW);
+        digitalWrite(LeftPin, LOW);
         delay(1000);
-        digitalWrite(13, LOW);
-      
-      
+        digitalWrite(RightPin, HIGH);
+        delay(1000);
+        alto();
     }
-     else if (recibida == '2'){
-      String var = "derecha";
-      Serial.print("Dato recibido: DERECHA");
-      Serial.print("\n");
-      servoMotor.write(0);
-      digitalWrite(13, LOW);
-      delay(1000);
-      digitalWrite(13, HIGH);
-      digitalWrite(12, LOW);
-      delay(1000);
-      servoMotor.write(90);
-      digitalWrite(13, LOW);
-      
-     }
-      else if (recibida == '3'){
-        
-        Serial.print("Dato recibido: IZQUIERDA");
+    if (recibida == '2'){
+        Serial.print("Dato recibido: DERECHA");
         Serial.print("\n");
+        Serial.print(String(cm)+"CM\n##############################################\n");
         servoMotor.write(180);
         delay(1000);
-        digitalWrite(13, HIGH);
-        digitalWrite(12, LOW);
+        digitalWrite(LeftPin, LOW);
         delay(1000);
-        servoMotor.write(90);
-        digitalWrite(13, LOW);
-      }
-      else if (recibida == '4'){
-        
+        digitalWrite(RightPin, HIGH);
+        delay(1000);
+        alto();
+    }
+    if (recibida == '3'){
+        Serial.print("Dato recibido: IZQUIERDA");
+        Serial.print("\n");
+        Serial.print(String(cm)+"CM\n##############################################\n");
+        servoMotor.write(0);
+        delay(1000);
+        digitalWrite(LeftPin, LOW);
+        delay(1000);
+        digitalWrite(RightPin, HIGH);
+        delay(1000);
+        alto();
+    }
+    if (recibida == '4'){
         Serial.print("Dato recibido: ATRAS");
         Serial.print("\n");
-        digitalWrite(13, LOW);
+        Serial.print(String(cm)+"CM\n##############################################\n");
         servoMotor.write(90);
         delay(1000);
-        digitalWrite(12, HIGH);
-        digitalWrite(13, LOW);
+        digitalWrite(LeftPin, HIGH);
         delay(1000);
-        
+        digitalWrite(RightPin, LOW);
+        delay(1000);
+        alto();
     }
+    
+      }
+    else{
+      Serial.print("#####################STOP#######################\n");
+      Serial.print(String(cm)+"CM\n##############################################\n");
+      Serial.print("NO SE PUEDE AVANZAR\n");
+      alto();
       }
     
-    }    
-}
+      
+      }
+    
+       
+} 
